@@ -6,10 +6,19 @@
   <link rel="stylesheet" href="styles.css">
   <style>
     /* Place your CSS styles here */
+    #userInput {
+        
+        height: 30px; 
+         color: #84FF84;  /* Light green */
+         font-size: large;
+        background-color: darkgray; /* Gray */
+        font-style:   bold;
+    }
     #input-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
+        margin-top: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
     #userInput {
       width: 600px;
@@ -96,23 +105,30 @@
       ctx.fillStyle = TEXT_COLOR; 
       ctx.fillText(lines[currentLineIndex], randomX, currentLineY);// Draw the falling text at the randomized position
 
-      // Check for user input
-      const userInput = document.getElementById("userInput").value;
-      if (userInput.trim() === lines[currentLineIndex]) {
-        score++;
-        document.getElementById("score").textContent = `Score: ${score}`;
-        currentLineIndex++;
-        currentLineY = -FONT_SIZE;
-        document.getElementById("userInput").value = ""; // Clear input
-         // Generate a random x position within the allowed range
-         let randomX = Math.floor(Math.random() * (MAX_X - MIN_X + 1) + MIN_X);
+        document.addEventListener("keypress", function(event) {
+        if (event.key === "Enter") {
+        // Handle user input checking here 
+            const userInput = document.getElementById("userInput").value;
+            if (userInput.trim() === lines[currentLineIndex]) {
+            score++;
+            document.getElementById("score").textContent = `Score: ${score}`;
+            currentLineIndex++;
+            currentLineY = -FONT_SIZE;
+            document.getElementById("userInput").value = ""; // Clear input
+            // Generate a random x position within the allowed range
+            let randomX = Math.floor(Math.random() * (MAX_X - MIN_X + 1) + MIN_X);
 
-        // Handle end of lines
-        if (currentLineIndex === lines.length) {
-          // You can add a win message here or restart the game
-          console.log("Congratulations! You typed all the lines correctly.");
+            // Handle end of lines
+            if (currentLineIndex === lines.length) {
+            // You can add a win message here or restart the game
+            console.log("Congratulations! You typed all the lines correctly.");
+            }
         }
-      }
+            }
+        });
+      // Check for user input
+      
+     
     }
 
     animate();
