@@ -25,12 +25,11 @@
     }
   </style>
 </head>
-<body>
+<body style="background: black;">
   <canvas id="myCanvas"></canvas>
   <br>
   <div id="input-container">
-    <input type="text" id="userInput" autofocus style="width: 600px;">
-  </div>
+    <input placeholder="type code here... than press Enter" type="text" id="userInput" autofocus style="width: 600px;">
 
   <p id="score" style="position: absolute; top: 0; right: 50px; z-index: 1; font-size: 20px; color: lightgreen;">Score: 0</p>
 
@@ -41,7 +40,7 @@
     const BACKGROUND_COLOR = "#000000"; // Black
     const FONT_SIZE = 20;
     const LINE_SPACING = 10;
-    const FALLING_SPEED = 2/10; // Adjust for desired difficulty
+    const FALLING_SPEED = 5/10; // Adjust for desired difficulty
     
   
 
@@ -51,7 +50,7 @@
     canvas.height = window.innerHeight - 80;
 
     const MIN_X = 50; // Adjust according to your canvas size
-     const MAX_X = canvas.width - 200; // Consider text width
+     const MAX_X = canvas.width - 250; // Consider text width
      let randomX = MIN_X;
 
     // Initialize drawing context
@@ -100,7 +99,8 @@
 
 
       // Update positions
-      currentLineY += FALLING_SPEED;
+      if (currentLineY < canvas.height - 10)
+            currentLineY += FALLING_SPEED;
 
       // Clear canvas
       ctx.fillStyle = BACKGROUND_COLOR;
@@ -112,23 +112,23 @@
 
         document.addEventListener("keypress", function(event) {
         if (event.key === "Enter") {
-        // Handle user input checking here 
+            // Handle user input checking here 
             const userInput = document.getElementById("userInput").value;
             if (userInput.trim() === lines[currentLineIndex].trim()) {
-            score++;
-            document.getElementById("score").textContent = `Score: ${score}`;
-            currentLineIndex++;
-            currentLineY = -FONT_SIZE;
-            document.getElementById("userInput").value = ""; // Clear input
-            // Generate a random x position within the allowed range
-             randomX = Math.floor(Math.random() * (MAX_X - MIN_X + 1) + MIN_X);
+                score++;
+                document.getElementById("score").textContent = `Score: ${score}`;
+                currentLineIndex++;
+                currentLineY = -FONT_SIZE/2;
+                document.getElementById("userInput").value = ""; // Clear input
+                // Generate a random x position within the allowed range
+                randomX = Math.floor(Math.random() * (MAX_X - MIN_X + 1) + MIN_X);
 
-            // Handle end of lines
-            if (currentLineIndex === lines.length) {
-            // You can add a win message here or restart the game
-            console.log("Congratulations! You typed all the lines correctly.");
+                // Handle end of lines
+                if (currentLineIndex === lines.length) {
+                // You can add a win message here or restart the game
+                console.log("Congratulations! You typed all the lines correctly.");
+                }
             }
-        }
             }
         });
       // Check for user input
