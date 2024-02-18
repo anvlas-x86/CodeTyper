@@ -11,7 +11,7 @@
         height: 30px; 
          color: #84FF84;  /* Light green */
          font-size: large;
-        background-color: darkgray; /* Gray */
+        background-color: rgb(4, 8, 17); /* Gray */
         font-style:   bold;
     }
     #input-container {
@@ -47,11 +47,11 @@
 
     // Set canvas to full screen
     const canvas = document.getElementById("myCanvas");
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight - 100;
+    canvas.width = window.innerWidth -15;
+    canvas.height = window.innerHeight - 80;
 
     const MIN_X = 50; // Adjust according to your canvas size
-     const MAX_X = canvas.width - 150; // Consider text width
+     const MAX_X = canvas.width - 200; // Consider text width
      let randomX = MIN_X;
 
     // Initialize drawing context
@@ -68,14 +68,19 @@
         "{",
         "  int i = 1;",
         "",
-        "  while (i <= 100) {",
-        "    if (i % 3 == 0 && i % 5 == 0) {",
-        "      printf(\"FizzBuzz\\n\");",
-        "    } else if (i % 3 == 0) {",
-        "      printf(\"Fizz\\n\");",
-        "    } else if (i % 5 == 0) {",
-        "      printf(\"Buzz\\n\");",
-        "    } else {",
+        "  while (i <= 100)",
+        "{",
+        "  if (i % 3 == 0 && i % 5 == 0)",
+        "{",
+        "  printf(\"FizzBuzz\\n\");",
+        " } else if (i % 3 == 0)",
+        "    { ",
+        "     printf(\"Fizz\\n\");",
+        "    } else if (i % 5 == 0)",
+        "    { ",
+        "       printf(\"Buzz\\n\");",
+        "    } else",
+        "    {",
         "      printf(\"%d\\n\", i);",
         "    }",
         "    i++;",
@@ -109,14 +114,14 @@
         if (event.key === "Enter") {
         // Handle user input checking here 
             const userInput = document.getElementById("userInput").value;
-            if (userInput.trim() === lines[currentLineIndex]) {
+            if (userInput.trim() === lines[currentLineIndex].trim()) {
             score++;
             document.getElementById("score").textContent = `Score: ${score}`;
             currentLineIndex++;
             currentLineY = -FONT_SIZE;
             document.getElementById("userInput").value = ""; // Clear input
             // Generate a random x position within the allowed range
-            let randomX = Math.floor(Math.random() * (MAX_X - MIN_X + 1) + MIN_X);
+             randomX = Math.floor(Math.random() * (MAX_X - MIN_X + 1) + MIN_X);
 
             // Handle end of lines
             if (currentLineIndex === lines.length) {
