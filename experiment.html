@@ -4,11 +4,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Falling Text Game</title>
   <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Place your CSS styles here */
+    #input-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    #userInput {
+      width: 600px;
+    }
+  </style>
 </head>
 <body>
   <canvas id="myCanvas"></canvas>
-  <input type="text" id="userInput" autofocus>
-  <p id="score">Score: 0</p>
+  <br>
+  <div id="input-container">
+    <input type="text" id="userInput" autofocus style="width: 600px;">
+  </div>
+
+  <p id="score" style="position: absolute; top: 0; right: 50px; z-index: 1; font-size: 20px; color: lightgreen;">Score: 0</p>
+
 
   <script>
     // Game constants
@@ -16,12 +32,18 @@
     const BACKGROUND_COLOR = "#000000"; // Black
     const FONT_SIZE = 20;
     const LINE_SPACING = 10;
-    const FALLING_SPEED = 1/10; // Adjust for desired difficulty
+    const FALLING_SPEED = 2/10; // Adjust for desired difficulty
+    
+  
 
     // Set canvas to full screen
     const canvas = document.getElementById("myCanvas");
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight - 100;
+
+    const MIN_X = 50; // Adjust according to your canvas size
+     const MAX_X = canvas.width - 150; // Consider text width
+     let randomX = MIN_X;
 
     // Initialize drawing context
     const ctx = canvas.getContext("2d");
@@ -43,6 +65,8 @@
     // Game loop
     function animate() {
       requestAnimationFrame(animate);
+     
+
 
       // Update positions
       currentLineY += FALLING_SPEED;
@@ -52,8 +76,8 @@
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       // Draw falling line
-      ctx.fillStyle = TEXT_COLOR;
-      ctx.fillText(lines[currentLineIndex], 0, currentLineY);
+      ctx.fillStyle = TEXT_COLOR; 
+      ctx.fillText(lines[currentLineIndex], randomX, currentLineY);// Draw the falling text at the randomized position
 
       // Check for user input
       const userInput = document.getElementById("userInput").value;
@@ -63,6 +87,8 @@
         currentLineIndex++;
         currentLineY = -FONT_SIZE;
         document.getElementById("userInput").value = ""; // Clear input
+         // Generate a random x position within the allowed range
+         let randomX = Math.floor(Math.random() * (MAX_X - MIN_X + 1) + MIN_X);
 
         // Handle end of lines
         if (currentLineIndex === lines.length) {
