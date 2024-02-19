@@ -1,0 +1,41 @@
+<!-- Made by AnVlas -->
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FizzBuzz Game</title>
+     <!--  <link rel="stylesheet" href="styles.css"> -->
+  <style>
+    /* Place your CSS styles here */
+    #userInput {
+        height: 30px; 
+        color: #84FF84;  /* Light green */
+        font-size: large;
+        background-color: rgb(4, 8, 17); /* Gray */
+        font-style:   bold;
+    }
+    #input-container {
+        margin-top: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    #userInput {
+      width: 600px;
+    }
+  </style>
+</head>
+<body style="background: black;">
+  <canvas id="myCanvas"></canvas>
+  <br>
+  <div id="input-container">
+    <input placeholder="type code here... than press Enter" type="text" id="userInput" autofocus style="width: 600px;">
+
+  <p id="score" style="position: absolute; top: 0; right: 50px; z-index: 1; font-size: 20px; color: lightgreen;">Score: 0</p>
+
+
+  
+</body>
+<script src="./game.js"></script>
+</html>
