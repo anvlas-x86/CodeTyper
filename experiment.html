@@ -2,8 +2,8 @@
 <html>
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Falling Text Game</title>
-  <link rel="stylesheet" href="styles.css">
+  <title>FizzBuzz Game</title>
+     <!--  <link rel="stylesheet" href="styles.css"> -->
   <style>
     /* Place your CSS styles here */
     #userInput {
@@ -98,10 +98,28 @@
         lineYs.push(-FONT_SIZE / 2); // Initialize all lines to be above the canvas
         }
     let randomXs = [];
-    for (let i = 0; i < lines.length; i++) {
-    randomXs.push(Math.floor(Math.random() * (MAX_X - MIN_X + 1) + MIN_X));
-    } 
+        for (let i = 0; i < lines.length; i++) {
+        randomXs.push(Math.floor(Math.random() * (MAX_X - MIN_X + 1) + MIN_X));
+        } 
 
+    function typedCorrect()
+    {
+                lineYs[currentLineToType]+=300;
+                score++;
+                document.getElementById("score").textContent = `Score: ${score}`;
+                currentLineToType++;
+                
+                document.getElementById("userInput").value = ""; // Clear input
+                // Handle end of lines
+                if (currentLineToType === lines.length) {
+                    // You can add a win message here or restart the game
+                    console.log("Congratulations! You typed all the lines correctly.");
+                }
+                for (let i = 0; i < currentFallingLine; i++) 
+                { 
+                    lineYs[i] += 15;
+                }
+    }
 
     // Game loop
     function animate() {
@@ -114,7 +132,7 @@
     {
         if (i == currentFallingLine)
         { 
-            if (lineYs[i] < canvas.height - 10*(i+1)) 
+            if (lineYs[i] < canvas.height - 15*(i+1-currentLineToType)) 
             {
                 lineYs[i] += FALLING_SPEED;
             }else{
@@ -139,25 +157,12 @@
 
         document.addEventListener("keypress", function(event) {
         if (event.key === "Enter") {
-            // Handle user input checking here 
-            const userInput = document.getElementById("userInput").value;
-            if (userInput.trim() === lines[currentLineToType].trim()) {
-                lineYs[currentLineToType]+=100;
-                score++;
-                document.getElementById("score").textContent = `Score: ${score}`;
-                currentLineToType++;
-                //currentFallingLine++;
-                currentLineY = -FONT_SIZE/2;
-                document.getElementById("userInput").value = ""; // Clear input
-                // Generate a random x position within the allowed range
-                //randomX = Math.floor(Math.random() * (MAX_X - MIN_X + 1) + MIN_X);
-
-                // Handle end of lines
-                if (currentLineToType === lines.length) {
-                // You can add a win message here or restart the game
-                console.log("Congratulations! You typed all the lines correctly.");
+                // Handle user input checking here 
+                const userInput = document.getElementById("userInput").value;
+                if (userInput.trim() === lines[currentLineToType].trim()) 
+                {
+                    typedCorrect();
                 }
-            }
             }
         });
       // Check for user input
