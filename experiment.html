@@ -40,7 +40,7 @@
     const BACKGROUND_COLOR = "#000000"; // Black
     const FONT_SIZE = 20;
     const LINE_SPACING = 10;
-    const FALLING_SPEED = 5/10; // Adjust for desired difficulty
+    const FALLING_SPEED = 10/10; // Adjust for desired difficulty
     
   
 
@@ -50,8 +50,9 @@
     canvas.height = window.innerHeight - 80;
 
     const MIN_X = 50; // Adjust according to your canvas size
-     const MAX_X = canvas.width - 250; // Consider text width
-     let randomX = MIN_X;
+    const MAX_X = canvas.width - 250; // Consider text width
+    let randomX = MIN_X;
+   
 
     // Initialize drawing context
     const ctx = canvas.getContext("2d");
@@ -87,10 +88,20 @@
         "",
         "  return 0;",
         "}"
-    ];
-    let currentLineIndex = 0;
-    let currentLineY = -FONT_SIZE;
+    ]; 
+    let currentFallingLine = 0;
+    let currentLineToType = 0;
+    //let currentLineY = -FONT_SIZE;
     let score = 0;
+    let lineYs = [];
+        for (let i = 0; i < lines.length; i++) {
+        lineYs.push(-FONT_SIZE / 2); // Initialize all lines to be above the canvas
+        }
+    let randomXs = [];
+    for (let i = 0; i < lines.length; i++) {
+    randomXs.push(Math.floor(Math.random() * (MAX_X - MIN_X + 1) + MIN_X));
+    } 
+
 
     // Game loop
     function animate() {
@@ -98,9 +109,21 @@
      
 
 
-      // Update positions
-      if (currentLineY < canvas.height - 10)
-            currentLineY += FALLING_SPEED;
+    // Make lines fall one by one
+    for (let i = 0; i < lineYs.length; i++) 
+    {
+        if (i == currentFallingLine)
+        { 
+            if (lineYs[i] < canvas.height - 10*(i+1)) 
+            {
+                lineYs[i] += FALLING_SPEED;
+            }else{
+                currentFallingLine++;
+                console.log(" currentFallingLine++");
+            }
+        }
+    }
+
 
       // Clear canvas
       ctx.fillStyle = BACKGROUND_COLOR;
@@ -108,23 +131,29 @@
 
       // Draw falling line
       ctx.fillStyle = TEXT_COLOR; 
-      ctx.fillText(lines[currentLineIndex], randomX, currentLineY);// Draw the falling text at the randomized position
+      for (let i = 0; i < lines.length; i++) {
+        // Draw the line at its calculated X and Y position
+        ctx.fillText(lines[i], randomXs[i], lineYs[i]);
+        }
+
 
         document.addEventListener("keypress", function(event) {
         if (event.key === "Enter") {
             // Handle user input checking here 
             const userInput = document.getElementById("userInput").value;
-            if (userInput.trim() === lines[currentLineIndex].trim()) {
+            if (userInput.trim() === lines[currentLineToType].trim()) {
+                lineYs[currentLineToType]+=100;
                 score++;
                 document.getElementById("score").textContent = `Score: ${score}`;
-                currentLineIndex++;
+                currentLineToType++;
+                //currentFallingLine++;
                 currentLineY = -FONT_SIZE/2;
                 document.getElementById("userInput").value = ""; // Clear input
                 // Generate a random x position within the allowed range
-                randomX = Math.floor(Math.random() * (MAX_X - MIN_X + 1) + MIN_X);
+                //randomX = Math.floor(Math.random() * (MAX_X - MIN_X + 1) + MIN_X);
 
                 // Handle end of lines
-                if (currentLineIndex === lines.length) {
+                if (currentLineToType === lines.length) {
                 // You can add a win message here or restart the game
                 console.log("Congratulations! You typed all the lines correctly.");
                 }
